@@ -9,7 +9,18 @@ node {
 
   stage('Build') {
     // you should build this repo with a maven build step here
-    echo "hello"
+    withMaven (maven: 'maven3') {
+          sh "mvn package"
+        }
+    echo "hello ended maven"
   }
   // you should add a test report here
-}
+  echo "before Test"
+  junit "target/surefire-reports/*.xml"
+  // stage('Test') {
+  finally {
+    echo "testing"
+    junit "target/surefire-reports/*.xml"
+    echo "tested"
+  }
+ }
